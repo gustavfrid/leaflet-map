@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo } from 'react'
 
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, LayersControl, useMapEvents } from 'react-leaflet'
 import styled from 'styled-components'
 import { mapProviders } from '../utils/mapProviders'
 
@@ -44,7 +44,14 @@ export const LeafletMap = () => {
   return (
     <MapWarapper>
       <MapContainer center={position} zoom={11}>
-        <TileLayer attribution={mapProviders.OSM.attribution} url={mapProviders.OSM.url} />
+        <LayersControl position='topright'>
+          <LayersControl.BaseLayer name='OpenStreetMap'>
+            <TileLayer attribution={mapProviders.OSM.attribution} url={mapProviders.OSM.url} />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer checked name='Esri.Satellite'>
+            <TileLayer attribution={mapProviders.ESRI.attribution} url={mapProviders.ESRI.url} />
+          </LayersControl.BaseLayer>
+        </LayersControl>
         <Marker draggable position={position} ref={markerRef} eventHandlers={eventHandlers} />
         <MapEvents />
       </MapContainer>
