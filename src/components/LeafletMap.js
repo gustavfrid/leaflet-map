@@ -3,11 +3,16 @@ import React, { useState, useRef, useMemo } from 'react'
 import { MapContainer, TileLayer, Marker, LayersControl, useMapEvents } from 'react-leaflet'
 import styled from 'styled-components'
 import { mapProviders } from '../utils/mapProviders'
+// import { LeafletControlGeocoder } from './LeafletControlGeocoder'
+import { SearchBox } from './SearchBox'
 
 const MapWrapper = styled.div`
   height: 600px;
   margin: auto;
   width: 600px;
+`
+const LocationWrapper = styled.div`
+  display: flex;
 `
 
 export const LeafletMap = () => {
@@ -56,11 +61,15 @@ export const LeafletMap = () => {
         </LayersControl>
         <Marker draggable position={position} ref={markerRef} eventHandlers={eventHandlers} />
         <MapEvents />
+        {/* <LeafletControlGeocoder setPosition={setPosition} /> */}
       </MapContainer>
+      <LocationWrapper>
+        <button onClick={onLocate}>My Location</button>
+        <SearchBox />
+      </LocationWrapper>
       <p>
         Latitude: {position.lat}, Longitude: {position.lng}
       </p>
-      <button onClick={onLocate}>My Location</button>
     </MapWrapper>
   )
 }
