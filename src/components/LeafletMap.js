@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Marker, LayersControl, useMapEvents } from 're
 import styled from 'styled-components'
 import { mapProviders } from '../utils/mapProviders'
 
-const MapWarapper = styled.div`
+const MapWrapper = styled.div`
   height: 600px;
   margin: auto;
   width: 600px;
@@ -13,6 +13,7 @@ const MapWarapper = styled.div`
 export const LeafletMap = () => {
   const [position, setPosition] = useState({ lat: 59.32496507200476, lng: 18.070742255316343 })
   const markerRef = useRef(null)
+
   const eventHandlers = useMemo(
     () => ({
       dragend() {
@@ -43,7 +44,7 @@ export const LeafletMap = () => {
   }
 
   return (
-    <MapWarapper>
+    <MapWrapper>
       <MapContainer center={position} zoom={11}>
         <LayersControl position='topright'>
           <LayersControl.BaseLayer name='OpenStreetMap'>
@@ -60,6 +61,6 @@ export const LeafletMap = () => {
         Latitude: {position.lat}, Longitude: {position.lng}
       </p>
       <button onClick={onLocate}>My Location</button>
-    </MapWarapper>
+    </MapWrapper>
   )
 }
