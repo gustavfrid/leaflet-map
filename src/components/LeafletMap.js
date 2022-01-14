@@ -2,6 +2,7 @@ import React, { useState, useRef, useMemo } from 'react'
 
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet'
 import styled from 'styled-components'
+import { mapProviders } from '../utils/mapProviders'
 
 const MapWarapper = styled.div`
   height: 600px;
@@ -18,7 +19,9 @@ export const LeafletMap = () => {
       dragend() {
         const marker = markerRef.current
         if (marker != null) {
-          setPosition(marker.getLatLng())
+          let newPosition = marker.getLatLng()
+          setPosition({ lat: newPosition.lat, lng: newPosition.lng })
+          console.log('from marker', newPosition)
         }
       },
     }),
@@ -41,13 +44,13 @@ export const LeafletMap = () => {
   return (
     <MapWarapper>
       <MapContainer center={position} zoom={11}>
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-        />
+        <TileLayer attribution={mapProviders.OSM.attribution} url={mapProviders.OSM.url} />
         <Marker draggable position={position} ref={markerRef} eventHandlers={eventHandlers} />
         <MapEvents />
       </MapContainer>
+      <p>
+        Latitude: {position.lat}, Longitude: {position.lng}
+      </p>
     </MapWarapper>
   )
 }
