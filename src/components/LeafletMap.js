@@ -8,7 +8,6 @@ const MapWarapper = styled.div`
   height: 600px;
   margin: auto;
   width: 600px;
-  background-color: grey;
 `
 
 export const LeafletMap = () => {
@@ -31,14 +30,16 @@ export const LeafletMap = () => {
   const MapEvents = () => {
     useMapEvents({
       click(e) {
-        // setState your coords here
-        // coords exist in "e.latlng.lat" and "e.latlng.lng"
-        console.log(e.latlng.lat)
-        console.log(e.latlng.lng)
         setPosition({ lat: e.latlng.lat, lng: e.latlng.lng })
       },
     })
     return false
+  }
+
+  const onLocate = () => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      setPosition({ lat: position.coords.latitude, lng: position.coords.longitude })
+    })
   }
 
   return (
@@ -58,6 +59,7 @@ export const LeafletMap = () => {
       <p>
         Latitude: {position.lat}, Longitude: {position.lng}
       </p>
+      <button onClick={onLocate}>My Location</button>
     </MapWarapper>
   )
 }
